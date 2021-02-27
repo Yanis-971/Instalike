@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="../static/css/home.css" th:href="@{/css/home.css}" rel="stylesheet" />
+
+<title>Instalike</title>
+
+
+</head>
+<body>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="https://images.assetsdelivery.com/compings_v2/2nix/2nix1408/2nix140800145.jpg" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+    <form method="post" th:action="@{/logUser}" th:object="${user}">
+     <input type="text" th:field="*{username}" id="login" class="fadeIn second" name="login" placeholder="username">
+      <input type="text" th:field="*{password}" id="password" class="fadeIn third" name="login" placeholder="password">
+      <input type="submit" class="fadeIn fourth" value="Log In">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

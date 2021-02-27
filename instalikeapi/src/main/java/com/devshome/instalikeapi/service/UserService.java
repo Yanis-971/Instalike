@@ -33,6 +33,13 @@ public class UserService {
 	public User findUser(Long id) {
 		return userRepository.findUserById(id);
 	}
+	
+	//Find User by username and password
+	public User findUserLog(User user) {
+		return userRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword());
+		
+	}
+	
 	//Update User
 	public User updateUser(User user) {
 		User u= userRepository.findUserById(user.getId());

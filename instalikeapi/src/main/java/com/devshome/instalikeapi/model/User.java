@@ -16,13 +16,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false,updatable = false)
 	private Long id;
-	private String Username;
-	private String Mail;
-	private String Password;
-	private String ImageUrl;
+	private String username;
+	private String mail;
+	private String password;
+	private String imageUrl;
 	@OneToMany
-	private List<User> Friends;
-	
+	private List<User> friends;
 	public Long getId() {
 		return id;
 	}
@@ -30,43 +29,40 @@ public class User {
 		this.id = id;
 	}
 	public String getUsername() {
-		return Username;
+		return username;
 	}
 	public void setUsername(String username) {
-		Username = username;
+		this.username = username;
 	}
 	public String getMail() {
-		return Mail;
+		return mail;
 	}
 	public void setMail(String mail) {
-		Mail = mail;
+		this.mail = mail;
 	}
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 	public void setPassword(String password) {
-		Password = password;
+		this.password = password;
 	}
 	public String getImageUrl() {
-		return ImageUrl;
+		return imageUrl;
 	}
 	public void setImageUrl(String imageUrl) {
-		ImageUrl = imageUrl;
+		this.imageUrl = imageUrl;
 	}
 	public List<User> getFriends() {
-		return Friends;
+		return friends;
 	}
 	public void setFriends(List<User> friends) {
-		Friends = friends;
+		this.friends = friends;
 	}
-	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", Username=" + Username + ", Mail=" + Mail + ", Password=" + Password + ", ImageUrl="
-				+ ImageUrl + ", Friends=" + Friends + "]";
+		return "User [id=" + id + ", username=" + username + ", mail=" + mail + ", password=" + password + ", imageUrl="
+				+ imageUrl + ", friends=" + friends + "]";
 	}
 	
 	
-	
-
 }
