@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.devshome.instalikewebapp.model.User;
@@ -75,7 +76,7 @@ public class UserController {
 		
 	//Add Friends
 	@PostMapping("/friends")
-	public ModelAndView AddFriend(@ModelAttribute User user, Long id1, Long id2) {
+	public ModelAndView AddFriend(@ModelAttribute User user, @RequestParam(value="id",required=false) Long id1,@RequestParam(value="id2",required=false) Long id2) {
 		userService.AddFriend(id1, id2);
 		return new ModelAndView("redirect:/Account/"+user.getId());		
 
