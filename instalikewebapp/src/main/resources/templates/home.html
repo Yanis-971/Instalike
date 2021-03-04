@@ -7,14 +7,14 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title>Signin Template Â· Bootstrap v5.0</title>
-
+    <title>Instalike</title>
+	
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
 
-    
-
     <!-- Bootstrap core CSS -->
-<link href="../static/assets/dist/css/bootstrap.min.css" th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -32,31 +32,75 @@
       }
     </style>
 
-    
     <!-- Custom styles for this template -->
-     <link href="../static/css/home.css" th:href="@{/css/home.css}" rel="stylesheet" />
+     <link th:href="@{/css/home.css}" rel="stylesheet" />
   </head>
-  <body class="text-center">
+  
+  
+<body class="text-center">
     
-<main class="form-signin">
-  <form>
-    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-    <label for="inputEmail" class="visually-hidden">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-    <label for="inputPassword" class="visually-hidden">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017â€“2021</p>
-  </form>
-</main>
-
-
-    
-  </body>
+	<main class="form-signin">
+	  <form method="post" th:action="@{/logUser}" th:object="${user}">
+	    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+	    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+	    <label for="inputUsername" class="visually-hidden">Username</label>
+	    <input type="text" th:field="*{username}" id="inputUsername" class="form-control" placeholder="Username" required autofocus>    
+	 	<label for="inputPassword" class="visually-hidden">Password</label>
+	    <input type="password" th:field="*{password}" id="inputPassword" class="form-control" placeholder="Password" required>    
+	    <div class="checkbox mb-3">
+	      <label>
+	        <input type="checkbox" value="remember-me"> Remember me
+	      </label>
+	    </div>
+	    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+	  </form>
+	  
+	  <!-- Button trigger modal -->
+	    <button type="button" class="w-100 btn btn-lg btn-outline-dark mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+	  		Sign Up
+		</button>
+	 
+	</main>
+	
+	<!-- Modal -->
+	<div class="modal fade text-start" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Sign Up</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <form method="post" th:action="@{/addUser}" th:object="${user}">
+	        
+	        <div class="mb-3">
+	    <label for="exampleInputUsername1" class="form-label">Username</label>
+	    <input type="text" th:field="*{username}" class="form-control" id="exampleInputUsername1">
+	  </div>
+	  
+	  <div class="mb-3">
+	    <label for="exampleInputEmail1" class="form-label">Email address</label>
+	    <input type="email" th:field="*{mail}" class="form-control" id="exampleInputEmail1">
+	  </div>
+	  <div class="mb-3">
+	    <label for="exampleInputPassword1" class="form-label">Password</label>
+	    <input type="password" th:field="*{password}" class="form-control" id="exampleInputPassword1">
+	  </div>
+	  
+	  <div class="text-end">
+	   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+	  <button type="submit" class="btn btn-primary">Submit</button>
+	  </div>
+  
+		</form>
+	      </div>
+	   
+	    </div>
+	  </div>
+	</div>
+		
+	
+	
+	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+	</body>
 </html>

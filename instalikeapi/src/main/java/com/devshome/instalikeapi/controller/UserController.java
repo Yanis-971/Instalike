@@ -39,7 +39,7 @@ public class UserController {
 		return userService.findAllUsers();
 	}
 	
-	//get all user
+	//get user
 	@GetMapping("/{id}")
 	public User findUser(@PathVariable("id") Long id ) {
 		return userService.findUser(id);
@@ -51,9 +51,28 @@ public class UserController {
 	}
 	
 	//Update User
-	@PutMapping("/update")
-	public User updateUser(@RequestBody User user) {
-		return userService.updateUser(user);
+	@PutMapping("/update/{id}")
+	public User updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+		User u = userService.findUser(id);
+		if(u != null) {	
+			if(user.getUsername() != null) {
+				u.setUsername(user.getUsername());
+			}
+			if(user.getMail() != null) {
+				u.setMail(user.getMail());
+			}
+			if(user.getPassword() != null) {
+				u.setPassword(user.getPassword());
+			}
+			if(user.getImageUrl() != null) {
+				u.setImageUrl(user.getImageUrl());
+			}
+			return userService.updateUser(u);
+		}
+		else {
+			return user;
+		}
+		
 	}
 	
 	//Delete User

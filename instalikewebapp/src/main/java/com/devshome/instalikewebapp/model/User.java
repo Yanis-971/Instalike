@@ -1,5 +1,7 @@
 package com.devshome.instalikewebapp.model;
 
+import java.util.List;
+
 public class User {
 	
 	private Long id;
@@ -7,6 +9,16 @@ public class User {
 	private String Mail;
 	private String Password;
 	private String ImageUrl;
+	private List<User> Friends;
+	
+	
+	
+	public List<User> getFriends() {
+		return Friends;
+	}
+	public void setFriends(List<User> friends) {
+		Friends = friends;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -37,12 +49,13 @@ public class User {
 	public void setImageUrl(String imageUrl) {
 		ImageUrl = imageUrl;
 	}
-	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", Username=" + Username + ", Mail=" + Mail + ", Password=" + Password + ", ImageUrl="
-				+ ImageUrl + "]";
+				+ ImageUrl + ", Friends=" + Friends + "]";
 	}
+	
+	
 	
 	
 

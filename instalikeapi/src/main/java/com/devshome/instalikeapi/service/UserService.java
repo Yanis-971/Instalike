@@ -42,8 +42,6 @@ public class UserService {
 	
 	//Update User
 	public User updateUser(User user) {
-		User u= userRepository.findUserById(user.getId());
-		user.setId(u.getId());
 		return userRepository.save(user);
 	}
 	

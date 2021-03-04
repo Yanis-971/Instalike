@@ -25,4 +25,16 @@ public class UserService {
 	public User LogUser(User user) {
 		return userProxy.LogUser(user);
 	}
+	
+	public User AddUser(User user ) {
+		return userProxy.AddUser(user);
+	}
+	
+	public User UpdateUser(User user) {
+		return userProxy.UpdateUser(user);
+	}
+	
+	public void AddFriend(Long id1, Long id2) {
+		userProxy.AddFriends(id1, id2);
+	}
 }
