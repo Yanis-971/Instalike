@@ -1,5 +1,6 @@
 package com.devshome.instalikeapi.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.devshome.instalikeapi.model.User;
 import com.devshome.instalikeapi.service.UserService;
@@ -52,7 +54,7 @@ public class UserController {
 	
 	//Update User
 	@PutMapping("/update/{id}")
-	public User updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+	public User updateUser(@PathVariable("id") Long id, @RequestBody User user, @RequestParam("file") MultipartFile image) throws IOException {
 		User u = userService.findUser(id);
 		if(u != null) {	
 			if(user.getUsername() != null) {
@@ -64,10 +66,13 @@ public class UserController {
 			if(user.getPassword() != null) {
 				u.setPassword(user.getPassword());
 			}
-			if(user.getImageUrl() != null) {
-				u.setImageUrl(user.getImageUrl());
+			if(image != null) {
+				u.setImageUrl(image.getBytes());
+				
 			}
+			
 			return userService.updateUser(u);
+			
 		}
 		else {
 			return user;

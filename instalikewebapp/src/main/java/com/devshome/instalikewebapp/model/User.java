@@ -8,7 +8,7 @@ public class User {
 	private String Username;
 	private String Mail;
 	private String Password;
-	private String ImageUrl;
+	private byte ImageUrl;
 	private List<User> Friends;
 	
 	
@@ -43,10 +43,11 @@ public class User {
 	public void setPassword(String password) {
 		Password = password;
 	}
-	public String getImageUrl() {
+	
+	public byte getImageUrl() {
 		return ImageUrl;
 	}
-	public void setImageUrl(String imageUrl) {
+	public void setImageUrl(byte imageUrl) {
 		ImageUrl = imageUrl;
 	}
 	@Override

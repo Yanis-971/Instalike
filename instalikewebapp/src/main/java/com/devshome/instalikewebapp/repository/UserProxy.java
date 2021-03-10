@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.devshome.instalikewebapp.CustomProperties;
@@ -108,10 +109,13 @@ public class UserProxy {
 					String baseUrl = customProperties.getApiUrl();
 					String getUsersUrl = baseUrl + "/User/update/" + user.getId();
 					
+					UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(getUsersUrl)
+							.queryParam("file", user.getImageUrl());
+					
 					RestTemplate restTemplate = new RestTemplate();
 					HttpEntity<User> request = new HttpEntity<User>(user);
 					ResponseEntity<User> response = restTemplate.exchange(
-							getUsersUrl,
+							builder.build().toString(),
 							HttpMethod.PUT,
 							request,
 							User.class

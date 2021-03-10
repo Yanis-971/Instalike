@@ -1,5 +1,6 @@
 package com.devshome.instalikeapi.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -7,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -19,7 +21,8 @@ public class User {
 	private String username;
 	private String mail;
 	private String password;
-	private String imageUrl;
+	@Lob
+	private byte[] imageUrl;
 	@OneToMany
 	private List<User> friends;
 	public Long getId() {
@@ -46,10 +49,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getImageUrl() {
+	
+	public byte[] getImageUrl() {
 		return imageUrl;
 	}
-	public void setImageUrl(String imageUrl) {
+	public void setImageUrl(byte[] imageUrl) {
 		this.imageUrl = imageUrl;
 	}
 	public List<User> getFriends() {
@@ -61,8 +65,11 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", mail=" + mail + ", password=" + password + ", imageUrl="
-				+ imageUrl + ", friends=" + friends + "]";
+				+ Arrays.toString(imageUrl) + ", friends=" + friends + "]";
 	}
+	
+	
+	
 	
 	
 }
