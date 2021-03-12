@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,8 +55,10 @@ public class UserController {
 	}
 	
 	//Update User
-	@PutMapping("/update/{id}")
-	public User updateUser(@PathVariable("id") Long id, @RequestBody User user, @RequestParam("file") MultipartFile image) throws IOException {
+	@PutMapping(value ="/update/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+	public User updateUser(@PathVariable("id") Long id, @RequestPart("user") String userJson, @RequestPart("image") MultipartFile image){
+		
+		User user = userService.getJson(userJson,image);
 		User u = userService.findUser(id);
 		if(u != null) {	
 			if(user.getUsername() != null) {
@@ -67,7 +71,7 @@ public class UserController {
 				u.setPassword(user.getPassword());
 			}
 			if(image != null) {
-				u.setImageUrl(image.getBytes());
+				u.setImageUrl(user.getImageUrl());
 				
 			}
 			

@@ -2,13 +2,16 @@ package com.devshome.instalikewebapp.model;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class User {
 	
 	private Long id;
 	private String Username;
 	private String Mail;
 	private String Password;
-	private byte ImageUrl;
+	private byte[] ImageUrl;
+	private String ImageBase64;
 	private List<User> Friends;
 	
 	
@@ -44,11 +47,19 @@ public class User {
 		Password = password;
 	}
 	
-	public byte getImageUrl() {
+	public byte[] getImageUrl() {
 		return ImageUrl;
 	}
-	public void setImageUrl(byte imageUrl) {
+	public void setImageUrl(byte[] imageUrl) {
 		ImageUrl = imageUrl;
+	}
+	
+	
+	public String getImageBase64() {
+		return ImageBase64;
+	}
+	public void setImageBase64(String imageBase64) {
+		ImageBase64 = imageBase64;
 	}
 	@Override
 	public String toString() {

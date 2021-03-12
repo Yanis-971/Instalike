@@ -5,9 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.devshome.instalikeapi.model.User;
 import com.devshome.instalikeapi.repository.UserRepository;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Service
 public class UserService {
@@ -59,6 +63,24 @@ public class UserService {
         userRepository.save(a);
         return a;
     }
+	
+	//Convert Json String to object User
+	public User getJson(String user,MultipartFile image) {
+		User newUserObject = new User();
+		try {
+			ObjectMapper objmap = new ObjectMapper();
+			objmap.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			objmap.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+
+			newUserObject = objmap.readValue(user, User.class);
+			newUserObject.setImageUrl(image.getBytes());
+			System.out.println(newUserObject.toString());
+		}catch(IOException e) {
+			System.out.printf("Error on maping Object User",e.toString());
+		}
+		
+		return newUserObject;
+	}
 	
 	
 	

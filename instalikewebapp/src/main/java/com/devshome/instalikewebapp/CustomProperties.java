@@ -4,10 +4,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "com.devshome.webapp")
+@ConfigurationProperties(prefix = "com.devshome.instalikewebapp")
 public class CustomProperties {
 	
-	private String apiUrl = "http://localhost:9090/";
+	private String apiUrl = "http://localhost:9090";
 
 	public String getApiUrl() {
 		return apiUrl;

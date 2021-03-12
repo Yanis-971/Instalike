@@ -36,8 +36,7 @@
         <div class="bg-white shadow rounded overflow-hidden">
             <div class="px-4 pt-0 pb-4 cover">
                 <div class="media align-items-end profile-head">
-                    
-                    <div class="profile mr-3"><img th:src="${user.imageUrl}" width="130" class="rounded mb-2 img-thumbnail">
+                    <div class="profile mr-3"><img th:src="*{'data:image/;base64,'+ imageBase64}" width="130" class="rounded mb-2 img-thumbnail">
                     <button type="button" class="btn btn-outline-dark btn-sm btn-block" data-toggle="modal" data-target="#exampleModal">Edit profile</button></div>
                     <div class="media-body mb-5 text-white">
                         <h4 class="mt-0 mb-0" th:text="${user.username}"></h4>
@@ -91,12 +90,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" th:action="@{/updateUser}" th:object="${user}">
+        <form method="post" th:action="@{/updateUser}" th:object="${user}" enctype="multipart/form-data">
 	        <input type="hidden" th:field="*{id}" class="form-control">
 	        
 	         <div class="mb-3">
 	    <label for="exampleInputImage1" class="form-label">Image</label>
-	    <input type="file" th:field="*{imageUrl}" class="form-control" name="exampleInputImage1" id="exampleInputImage1">
+	    <input type="file" th:name="image" class="form-control" name="exampleInputImage1" id="exampleInputImage1">
 	     
 	  </div>
 	  

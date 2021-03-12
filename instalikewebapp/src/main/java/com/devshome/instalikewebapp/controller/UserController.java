@@ -1,5 +1,9 @@
 package com.devshome.instalikewebapp.controller;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,9 +33,14 @@ public class UserController {
 	
 	//Account Page
 	@GetMapping("/Account/{id}")
-	public String account(@PathVariable("id") Long id, Model model) {
+	public String account(@PathVariable("id") Long id, Model model) throws UnsupportedEncodingException {
 		User user = userService.getUser(id);
+		
+		String base64Encoded = Base64.encodeBase64String(user.getImageUrl());	
+		//model.addAttribute("image", base64Encoded);
+		user.setImageBase64(base64Encoded);
 		model.addAttribute("user", user);
+		
 		return "account";
 	}
 	
@@ -70,8 +78,8 @@ public class UserController {
 	
 	//Update User
 		@PostMapping("/updateUser")
-		public ModelAndView UpdateUser(@ModelAttribute User user) {
-			userService.UpdateUser(user);
+		public ModelAndView UpdateUser(@ModelAttribute User user,@RequestParam(value="image") MultipartFile image) throws IOException {
+			userService.UpdateUser(user,image);
 			return new ModelAndView("redirect:/Account/"+user.getId());		
 		}
 		

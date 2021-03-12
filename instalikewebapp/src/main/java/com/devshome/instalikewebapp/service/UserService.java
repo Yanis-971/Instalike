@@ -1,5 +1,6 @@
 package com.devshome.instalikewebapp.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class UserService {
 		return userProxy.AddUser(user);
 	}
 	
-	public User UpdateUser(User user) {
-		return userProxy.UpdateUser(user);
+	public User UpdateUser(User user, MultipartFile image) throws IOException {
+		return userProxy.UpdateUser(user,image);
 	}
 	
 	public void AddFriend(Long id1, Long id2) {
