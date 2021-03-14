@@ -3,6 +3,7 @@ package com.devshome.instalikeapi.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.devshome.instalikeapi.model.Post;
 import com.devshome.instalikeapi.model.User;
+import com.devshome.instalikeapi.service.PostService;
 import com.devshome.instalikeapi.service.UserService;
 
 @RestController
@@ -27,10 +30,15 @@ public class UserController {
 	@Autowired
 	private final UserService userService;
 	
-	public UserController(UserService userService) {
-		this.userService = userService;
-	}
+	@Autowired
+	private final PostService postService;
 	
+	public UserController(UserService userService, PostService postService) {
+		super();
+		this.userService = userService;
+		this.postService = postService;
+	}
+
 	//add user
 	@PostMapping("/add")
 	public User addUser(@RequestBody User user){
@@ -46,8 +54,11 @@ public class UserController {
 	//get user
 	@GetMapping("/{id}")
 	public User findUser(@PathVariable("id") Long id ) {
-		return userService.findUser(id);
+		User u = userService.findUser(id);
+		
+		return u;
 	}
+	
 	//Get user by Username and Password
 	@PostMapping
 	public User findUserLog(@RequestBody User user) {
@@ -96,6 +107,13 @@ public class UserController {
         return userService.addFriend(x,y);
     }
 	
-	
+	//Add a Post (Works for update too)
+	@PostMapping("/Post/{iduser}")
+	public User addPost(@PathVariable("iduser") Long id,@RequestPart("post") String stringPost, @RequestPart("image") MultipartFile file ) throws IOException {
+		User user = userService.findUser(id);
+		Post post = postService.getJson(user,stringPost, file);
+		return userService.addPost(user, post);
+		
+	}
 
 }

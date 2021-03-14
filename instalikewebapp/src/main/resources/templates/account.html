@@ -8,11 +8,17 @@
 	<link href="../static/css/account.css" th:href="@{/css/account.css}" rel="stylesheet" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	
-	
+		<!-- Aperçu image-->
 	<script type="text/javascript">
+	
+
 	$(document).ready(function(){
 		$('#exampleInputImage1').change(function(){
 			showImageThumbnail(this);
+		});
+		
+		$('#exampleInputImage2').change(function(){
+			showImageThumbnail2(this);
 		});
 	});
 	
@@ -26,6 +32,18 @@
 		
 		reader.readAsDataURL(file);
 	}
+	
+	function showImageThumbnail2(fileInput){
+		file = fileInput.files[0];
+		reader = new FileReader();
+		
+		reader.onload = function (e) {
+			$('#thumbnail2').attr('src', e.target.result);
+		};
+		
+		reader.readAsDataURL(file);
+	}
+	
 </script>
 
 </head>
@@ -47,32 +65,34 @@
             <div class="bg-light p-4 d-flex justify-content-end text-center">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
+                        <h5 th:text="${#lists.size(user.posts)}" class="font-weight-bold mb-0 d-block"></h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
                     </li>
                     <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <a th:href="@{/contacts/{id}(id=${user.id})}" class="fas fa-user mr-1">Friends</a></small>
+                        <h5 class="font-weight-bold mb-0 d-block" th:text="${#lists.size(user.friends)}"></h5><small class="text-muted"> <a th:href="@{/contacts/{id}(id=${user.id})}" class="fas fa-user mr-1">Friends</a></small>
                     </li>
                   
                 </ul>
             </div>
-            <div class="px-4 py-3">
-                <h5 class="mb-0">About</h5>
-                <div class="p-4 rounded shadow-sm bg-light">
-                    <p class="font-italic mb-0">Web Developer</p>
-                    <p class="font-italic mb-0">Lives in New York</p>
-                    <p class="font-italic mb-0">Photographer</p>
-                </div>
-            </div>
+          
             <div class="py-4 px-4">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">New Photo</a>
+                    <h5 class="mb-0 w-50">Recent Post</h5>
+         			<button type="button" class="btn btn-outline-dark btn-sm btn-block" data-toggle="modal" data-target="#examplePost">New Post</button>
+                                       
+                    
                 </div>
-                <div class="row">
-                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 mb-2 pl-lg-1"><img src="https://images.unsplash.com/photo-1493571716545-b559a19edd14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 pr-lg-1 mb-2"><img src="https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 pl-lg-1"><img src="https://images.unsplash.com/photo-1475724017904-b712052c192a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
+                
+                <div class="row" >
+                
+                <div th:if="${user.posts.empty}">
+                <p> No Photos (yet) ;) </p>
                 </div>
+                <div th:each="post :${user.posts}">
+                    <div class="col-lg-6 mb-2 pr-lg-1 mh-50"><img th:src="@{'data:image/;base64,'+${post.conBase64}}" alt="" class="img-fluid rounded shadow-sm"></div>
+                </div>
+                </div>
+            
+           
             </div>
         </div>
     </div>
@@ -84,7 +104,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Update</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -125,6 +145,52 @@
   </div>
 </div>
 </div>
+
+
+
+
+<!-- Modal to Post -->
+<div class="modal fade" id="examplePost" tabindex="-1" aria-labelledby="exampleModalLabelPost" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelPost">New Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" th:action="@{/addPost/} + ${user.id}" th:object="${post}" enctype="multipart/form-data">	        
+	         <div class="mb-3">
+	    <label for="exampleInputImage2" class="form-label">Image</label>
+	    <input type="file" th:name="image2" class="form-control" name="exampleInputImage2" id="exampleInputImage2">
+	     
+	  </div>
+	  
+	  <img id="thumbnail2" alt="Image Preview" width="130" class="rounded mb-2 img-thumbnail"/> 
+	        
+	        <div class="mb-3">
+	    <label for="exampleInputTitle" class="form-label">Title</label>
+	    <input type="text" th:field="*{title}" class="form-control" id="exampleInputTitle">
+	  </div>
+	  
+	  <div class="mb-3">
+	    <label for="exampleInputDescription" class="form-label">Description</label>
+	    <input type="text" th:field="*{description}" class="form-control" id="exampleInputDescription">
+	  </div>
+	
+        <div class="text-right">
+	   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	  <button type="submit" class="btn btn-primary">Submit</button>
+	  </div>
+  
+		</form>
+     
+    </div>
+  </div>
+</div>
+</div>
+
 
 
 

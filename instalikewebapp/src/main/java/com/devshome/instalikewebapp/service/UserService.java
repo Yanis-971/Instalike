@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.devshome.instalikewebapp.model.Post;
 import com.devshome.instalikewebapp.model.User;
 import com.devshome.instalikewebapp.repository.UserProxy;
 
@@ -39,4 +40,9 @@ public class UserService {
 	public void AddFriend(Long id1, Long id2) {
 		userProxy.AddFriends(id1, id2);
 	}
+
+	public void addPost(Long id, Post post, MultipartFile image) throws IOException {
+		userProxy.addPost(id,post,image);
+	}
+	
 }

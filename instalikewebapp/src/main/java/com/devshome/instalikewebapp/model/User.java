@@ -1,10 +1,10 @@
 package com.devshome.instalikewebapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
 
-public class User {
+public class User{
 	
 	private Long id;
 	private String Username;
@@ -13,9 +13,19 @@ public class User {
 	private byte[] ImageUrl;
 	private String ImageBase64;
 	private List<User> Friends;
+	private List<Post> Posts;
 	
 	
 	
+	
+	
+	
+	public List<Post> getPosts() {
+		return Posts;
+	}
+	public void setPosts(List<Post> posts) {
+		Posts = posts;
+	}
 	public List<User> getFriends() {
 		return Friends;
 	}
@@ -64,8 +74,10 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", Username=" + Username + ", Mail=" + Mail + ", Password=" + Password + ", ImageUrl="
-				+ ImageUrl + ", Friends=" + Friends + "]";
+				+ Arrays.toString(ImageUrl) + ", ImageBase64=" + ImageBase64 + ", Friends=" + Friends + ", Posts="
+				+ Posts + "]";
 	}
+	
 	
 	
 	

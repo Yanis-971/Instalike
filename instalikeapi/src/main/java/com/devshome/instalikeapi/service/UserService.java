@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.devshome.instalikeapi.model.Post;
 import com.devshome.instalikeapi.model.User;
 import com.devshome.instalikeapi.repository.UserRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -18,12 +19,12 @@ public class UserService {
 	
 	@Autowired
 	private final UserRepository userRepository;
-
+	
 	public UserService(UserRepository userRepository) {
 		super();
 		this.userRepository = userRepository;
 	}
-	
+
 	//Add User
 	public User addUser(User user) {
 		return userRepository.save(user);
@@ -82,9 +83,14 @@ public class UserService {
 		return newUserObject;
 	}
 	
-	
-	
-	
-	
+	//Add a Post
+	public User addPost(User user,Post post) {
+		user.getPosts().add(post);
+		userRepository.save(user);
+		return user;
+	}
+
 
 }
+	
+

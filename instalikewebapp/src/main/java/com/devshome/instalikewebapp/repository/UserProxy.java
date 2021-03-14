@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.devshome.instalikewebapp.CustomProperties;
+import com.devshome.instalikewebapp.model.Post;
 import com.devshome.instalikewebapp.model.User;
 
 @Component
@@ -143,4 +144,38 @@ public class UserProxy {
 
 	}
 
+	// Add a Post
+		public void addPost(Long id,Post post, MultipartFile image) throws IOException {
+
+			String baseUrl = customProperties.getApiUrl();
+			String usersUrl = baseUrl + "/User/Post/" + id;
+
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+			MultiValueMap<String, Object> multipartRequest = new LinkedMultiValueMap<>();
+			
+			ByteArrayResource bytes = new ByteArrayResource(image.getBytes()){
+		        @Override
+		        public String getFilename() {
+		            return image.getOriginalFilename();
+		        }
+		    };
+
+			HttpHeaders uHeader = new HttpHeaders();
+			uHeader.setContentType(MediaType.APPLICATION_JSON);
+			HttpEntity<Post> uPart = new HttpEntity<>(post, uHeader);
+			multipartRequest.add("post", uPart);
+
+			HttpHeaders iHeader = new HttpHeaders();
+			iHeader.setContentType(MediaType.IMAGE_PNG);
+			HttpEntity<ByteArrayResource> iPart = new HttpEntity<>(bytes, iHeader);
+			multipartRequest.add("image", iPart);
+			
+			RestTemplate restTemplate = new RestTemplate();
+			HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(multipartRequest, header);
+			ResponseEntity<String> response = restTemplate.exchange(usersUrl, HttpMethod.POST, request, String.class);
+
+			log.debug("Request : Update Post " + response.getStatusCode().toString());
+		}
 }

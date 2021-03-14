@@ -24,7 +24,18 @@ public class User {
 	@Lob
 	private byte[] imageUrl;
 	@OneToMany
+	@Column(name = "friends")
 	private List<User> friends;
+	@OneToMany(mappedBy = "user")
+	private List<Post> posts;
+	
+	
+	public List<Post> getPosts() {
+		return posts;
+	}
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -65,8 +76,10 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", mail=" + mail + ", password=" + password + ", imageUrl="
-				+ Arrays.toString(imageUrl) + ", friends=" + friends + "]";
+				+ Arrays.toString(imageUrl) + ", friends=" + friends + ", posts=" + posts + "]";
 	}
+	
+	
 	
 	
 	
